@@ -19,10 +19,13 @@ class PepSpider(scrapy.Spider):
         pep_heading = response.xpath('//section[@id="pep-content"]')
         status_string = pep_heading.xpath('dl/dt[contains(text(),"Status")]')
         name_element = pep_heading.xpath('h1').get()
-        parser = etree.HTMLParser()  # Для 499 PEP
+        parser = etree.HTMLParser()
         tree = etree.fromstring(name_element, parser)
+        name_number = etree.tostring(tree, encoding='unicode', method='text')
+        number, name = name_number.split(" – ")[:2]
         data = {
-            'name': etree.tostring(tree, encoding='unicode', method='text'),
+            'name': name,
+            'number': number,
             'status': status_string.xpath(
                 'following-sibling::dd/abbr/text()').get().strip(),
         }
