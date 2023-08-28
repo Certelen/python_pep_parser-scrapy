@@ -1,6 +1,5 @@
 import csv
 import datetime as dt
-import re
 
 from .settings import BASE_DIR, DATETIME_FORMAT
 
